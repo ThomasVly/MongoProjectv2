@@ -1,10 +1,12 @@
 package com.example.demo.object;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+@Document(collection = "commandes")
 public class Commande {
 
     @Id
