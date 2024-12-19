@@ -15,4 +15,11 @@ public class MaterielService {
     public List<Materiel> getAllMateriel() {
         return materielRepository.findAll();
     }
+
+    public Materiel addMateriel(Materiel materiel) {
+        return materielRepository.save(materiel);
+    }
+
+    public Materiel getAllMateriel() {
+    }
 }

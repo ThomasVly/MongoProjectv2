@@ -14,4 +14,8 @@ public class GroupeService {
     public List<Groupe> getAllGroupes() {
         return groupeRepository.findAll();
     }
+    public Groupe createGroupe(Groupe groupe) {
+        return groupeRepository.save(groupe);
+    }
+
 }

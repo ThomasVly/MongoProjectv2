@@ -43,4 +43,5 @@ public class Groupe {
     public void setCode_postal(int code_postal) {
         this.code_postal = code_postal;
     }
+
 }
