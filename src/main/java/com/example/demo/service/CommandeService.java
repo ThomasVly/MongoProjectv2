@@ -18,4 +18,9 @@ public class CommandeService {
 
         return commandeRepository.findAll();
     }
+
+    public void saveCommande(Commande commande){
+
+        commandeRepository.save(commande);
+    }
 }
