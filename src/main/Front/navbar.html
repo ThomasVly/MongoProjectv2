@@ -1,0 +1,42 @@
+<div class="navbar">
+    <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="ventes.html">Ventes</a></li>
+
+        <li id="auth-link"></li> <!-- Zone dynamique pour se connecter / se déconnecter -->
+    </ul>
+</div>
+
+<style>
+    .navbar {
+        background-color: #ff6c00; /* Couleur orange vif */
+        padding: 15px 0;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center; /* Centre les éléments horizontalement */
+    }
+
+    .navbar li {
+        margin: 0 30px; /* Espacement entre les éléments */
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: color 0.3s ease; /* Effet de transition au survol */
+    }
+
+    .navbar a:hover {
+        color: #333; /* Changement de couleur au survol */
+    }
+</style>

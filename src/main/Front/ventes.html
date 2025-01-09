@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventes</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .products-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer; /* Permet de montrer que l'élément est cliquable */
+        }
+
+        .product-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-details {
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .product-description {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .product-price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ff6c00;
+        }
+
+        .btn-logout {
+            margin-top: 20px;
+            background-color: #e65c00;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c05000;
+        }
+    </style>
+</head>
+<body>
+<div id="navbar-container"></div> <!-- Conteneur pour la navbar -->
+
+<h1>Page des Ventes</h1>
+<div class="user-info" id="user-info">
+    Chargement des informations utilisateur...
+</div>
+
+
+<div class="products-container" id="products-container">
+    <!-- Les produits seront générés ici dynamiquement -->
+</div>
+
+<button class="btn-logout" onclick="logout()">Se déconnecter</button>
+
+<script>
+
+    // Fonction pour charger la navbar depuis un fichier externe
+    function loadNavbar() {
+        fetch('navbar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('navbar-container').innerHTML = data;
+                updateAuthLink(); // Met à jour le lien de connexion/déconnexion après le chargement de la navbar
+            })
+            .catch(error => console.error('Erreur de chargement de la navbar:', error));
+    }
+
+    // Vérifie si l'utilisateur est connecté et met à jour la zone de connexion / déconnexion
+    function updateAuthLink() {
+        const user = JSON.parse(localStorage.getItem("user"));
+        const authLink = document.getElementById("auth-link");
+
+        if (authLink) { // Vérifie que l'élément existe avant de le manipuler
+            if (user) {
+                authLink.innerHTML = `<a href="#" onclick="logout()">Se déconnecter</a>`;
+            } else {
+                authLink.innerHTML = `<a href="login.html">Se connecter</a>`;
+            }
+        }
+    }
+
+    // Fonction de déconnexion
+    function logout() {
+        localStorage.removeItem("user"); // Supprimer l'utilisateur du stockage local
+        window.location.href = "index.html"; // Rediriger vers la page d'accueil
+    }
+
+    // Vérifier si l'utilisateur est connecté
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+        // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
+        window.location.href = "login.html";
+    } else {
+        // Afficher le message de bienvenue avec l'email de l'utilisateur
+        document.getElementById("user-info").innerText = `Bienvenue, ${user.email}`;
+    }
+
+    // Exemple de liste de produits
+    const products = [
+        { id: 1, name: "Ordinateur portable", description: "Un PC rapide et performant.", price: "1200€" },
+        { id: 2, name: "Téléphone", description: "Un smartphone avec une autonomie exceptionnelle.", price: "800€" },
+        { id: 3, name: "Casque Bluetooth", description: "Son haute qualité et confort.", price: "150€" },
+        { id: 4, name: "Clavier mécanique", description: "Un clavier robuste pour le gaming.", price: "100€" },
+        { id: 5, name: "Montre connectée", description: "Suivi de santé et notifications.", price: "200€" }
+    ];
+
+    // Afficher les produits dans le conteneur
+    const productsContainer = document.getElementById("products-container");
+
+    products.forEach(product => {
+        // Créer un élément de produit
+        const productItem = document.createElement("div");
+        productItem.className = "product-item";
+
+        productItem.innerHTML = `
+        <div class="product-details">
+          <div class="product-name">${product.name}</div>
+          <div class="product-description">${product.description}</div>
+        </div>
+        <div class="product-price">${product.price}</div>
+      `;
+
+        // Ajouter un gestionnaire d'événements pour rediriger vers la page produit
+        productItem.addEventListener("click", () => {
+            window.location.href = `produit.html?id=${product.id}`;
+        });
+
+        // Ajouter le produit au conteneur
+        productsContainer.appendChild(productItem);
+    });
+
+    // Fonction pour déconnecter l'utilisateur
+    function logout() {
+        localStorage.removeItem("user"); // Supprimer les informations utilisateur
+        window.location.href = "index.html"; // Rediriger vers la page d'accueil
+    }
+    loadNavbar()
+</script>
+</>
+</html>
