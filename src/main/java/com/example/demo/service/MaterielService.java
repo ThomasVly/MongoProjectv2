@@ -20,6 +20,5 @@ public class MaterielService {
         return materielRepository.save(materiel);
     }
 
-    public Materiel getAllMateriel() {
-    }
+
 }

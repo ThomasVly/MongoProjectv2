@@ -21,8 +21,8 @@ public class MaterielController {
         return materielService.addMateriel(materiel);
     }
 
-    @GetMapping("/getAll")
+    /*@GetMapping("/getAll")
     public Materiel getMateriel() {
 
-    }
+    }*/
 }

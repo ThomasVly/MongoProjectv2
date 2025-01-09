@@ -17,4 +17,7 @@ public class CommandeService {
     public List<Commande> getAllCommandes() {
         return commandeRepository.findAll();
     }
+    public Commande getCommandeById(int id) {
+        return commandeRepository.getCommandeById(id);
+    }
 }
