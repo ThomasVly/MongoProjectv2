@@ -18,4 +18,7 @@ public class CommandeService {
 
         return commandeRepository.findAll();
     }
+    public Commande getCommandeById(int id) {
+        return commandeRepository.getCommandeById(id);
+    }
 }
