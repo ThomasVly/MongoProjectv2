@@ -18,7 +18,9 @@ public class CommandeService {
 
         return commandeRepository.findAll();
     }
-    public Commande getCommandeById(int id) {
-        return commandeRepository.getCommandeById(id);
+
+    public void saveCommande(Commande commande){
+
+        commandeRepository.save(commande);
     }
 }
