@@ -13,6 +13,14 @@ public class Materiel {
     private String type;
     private float prix;
 
+    public Materiel(String num, String mar, String mod, String type, float prix){
+        this.numero_serie = num;
+        this.marque = mar;
+        this.modele = mod;
+        this.type = type;
+        this.prix = prix;
+    }
+
     public String getNumero_serie() {
         return numero_serie;
     }

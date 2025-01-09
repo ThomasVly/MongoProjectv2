@@ -17,6 +17,16 @@ public class Commande {
     private ArrayList<Materiel> liste_materiel;
     private float prix_total;
 
+    public Commande(String id, Membre mc, Membre mv, Date d, ArrayList<Materiel> materiel, float ttl){
+
+        this.id_commande = id;
+        this.membre_client = mc;
+        this.membre_vendeur = mv;
+        this.date = d;
+        this.liste_materiel = materiel;
+        this.prix_total = ttl;
+    }
+
     public String getId_commande() {
         return id_commande;
     }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/materiel")
 public class MaterielController {
@@ -22,7 +24,7 @@ public class MaterielController {
     }
 
     @GetMapping("/getAll")
-    public Materiel getMateriel() {
-
+    public List<Materiel> getAllMateriel() {
+        return materielService.getAllMateriel();
     }
 }

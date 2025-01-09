@@ -13,13 +13,14 @@ public class MaterielService {
     private MaterielRepository materielRepository;
 
     public List<Materiel> getAllMateriel() {
+
         return materielRepository.findAll();
     }
 
     public Materiel addMateriel(Materiel materiel) {
+
         return materielRepository.save(materiel);
     }
 
-    public Materiel getAllMateriel() {
-    }
+
 }

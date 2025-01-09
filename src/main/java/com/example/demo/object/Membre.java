@@ -14,6 +14,16 @@ public class Membre {
     private String adresse;
     private String email;
     private String type_membre;
+    private String password;
+
+    public Membre(String id, String nom, String prenom, String add, String mail, String mem, String pass){
+        this.id_membre = id;
+        this.prenom = prenom;
+        this.adresse = add;
+        this.email = mail;
+        this.type_membre = mem;
+        this.password = pass;
+    }
 
     public String getId_membre() {
         return id_membre;
@@ -61,5 +71,13 @@ public class Membre {
 
     public void setType_membre(String type_membre) {
         this.type_membre = type_membre;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

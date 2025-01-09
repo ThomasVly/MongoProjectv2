@@ -12,10 +12,22 @@ public class GroupeService {
     @Autowired
     private GroupeRepository groupeRepository;
     public List<Groupe> getAllGroupes() {
+
         return groupeRepository.findAll();
     }
     public Groupe createGroupe(Groupe groupe) {
+
         return groupeRepository.save(groupe);
+    }
+
+    public Groupe getGroupe(int num){
+
+        return groupeRepository.getGroupeByNumero_groupe(num);
+    }
+
+    public void saveGroupe(Groupe g){
+
+        groupeRepository.save(g);
     }
 
 }
