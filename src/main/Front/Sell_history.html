@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Ventes</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+
+        }
+
+        h1 {
+            color: #fff; /* Couleur du texte en blanc */
+            margin: 0 auto 20px; /* Centrer avec des marges automatiques */
+            padding: 10px 20px;
+            background-color: #e65c00; /* Fond orange */
+            border-radius: 8px; /* Coins arrondis */
+            width: fit-content; /* Ajuste la largeur au contenu */
+            font-size: 28px;
+            display: block; /* Affiche le titre comme un élément block pour centrer */
+        }
+
+
+
+
+        .filters, .sales-container {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .filters label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .filters input, .filters select {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            width: calc(100% - 20px);
+        }
+
+        .filters .filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters .filter-group > div {
+            flex: 1 1 calc(50% - 15px);
+        }
+
+        .sales-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sale-item {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            background-color: #fafafa;
+        }
+
+        .sale-item h3 {
+            margin: 0 0 10px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .sale-item p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .btn {
+            background-color: #e65c00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #c05000;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Historique des Ventes</h1>
+
+
+<div class="filters">
+    <h2>Filtres de recherche</h2>
+    <div class="filter-group">
+        <div>
+            <label for="start-date">Date de début :</label>
+            <input type="date" id="start-date">
+        </div>
+        <div>
+            <label for="end-date">Date de fin :</label>
+            <input type="date" id="end-date">
+        </div>
+        <div>
+            <label for="client-member">Membre client :</label>
+            <input type="text" id="client-member" placeholder="Nom du client">
+        </div>
+        <div>
+            <label for="material-type">Matériel :</label>
+            <select id="material-type">
+                <option value="">Tous</option>
+                <option value="écran">Écran</option>
+                <option value="clavier">Clavier</option>
+                <option value="souris">Souris</option>
+                <option value="tour">Tour</option>
+                <option value="laptop">Laptop</option>
+                <option value="enceintes">Enceintes</option>
+            </select>
+        </div>
+    </div>
+    <button class="btn" onclick="applyFilters()">Rechercher</button>
+</div>
+
+<div class="sales-container">
+    <h2>Résultats des ventes</h2>
+    <div class="sales-list" id="sales-list"></div>
+</div>
+
+<script>
+    const sales = [
+        {
+            date: '2025-02-15',
+            client: 'Jean Dupont',
+            seller: 'Alice Martin',
+            material: {
+                serial: 'SN123456',
+                brand: 'Dell',
+                model: 'UltraSharp U2720Q',
+                type: 'écran',
+                price: '500€'
+            }
+        },
+        {
+            date: '2025-02-20',
+            client: 'Marie Curie',
+            seller: 'Bob Leroy',
+            material: {
+                serial: 'SN654321',
+                brand: 'Logitech',
+                model: 'MX Keys',
+                type: 'clavier',
+                price: '120€'
+            }
+        },
+        {
+            date: '2025-02-22',
+            client: 'Paul Cézanne',
+            seller: 'Alice Martin',
+            material: {
+                serial: 'SN987654',
+                brand: 'HP',
+                model: 'ProBook 450',
+                type: 'laptop',
+                price: '850€'
+            }
+        }
+    ];
+
+    function renderSales(filteredSales) {
+        const salesList = document.getElementById('sales-list');
+        salesList.innerHTML = '';
+
+        if (filteredSales.length === 0) {
+            salesList.innerHTML = '<p>Aucune vente trouvée.</p>';
+            return;
+        }
+
+        filteredSales.forEach(sale => {
+            const saleItem = document.createElement('div');
+            saleItem.className = 'sale-item';
+            saleItem.innerHTML = `
+                <h3>${sale.material.brand} ${sale.material.model} (${sale.material.type})</h3>
+                <p><strong>Date de vente :</strong> ${sale.date}</p>
+                <p><strong>Client :</strong> ${sale.client}</p>
+                <p><strong>Numéro de série :</strong> ${sale.material.serial}</p>
+                <p><strong>Prix :</strong> ${sale.material.price}</p>
+            `;
+            salesList.appendChild(saleItem);
+        });
+    }
+
+    function applyFilters() {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        const clientMember = document.getElementById('client-member').value.toLowerCase();
+        const materialType = document.getElementById('material-type').value;
+
+        const filteredSales = sales.filter(sale => {
+            const saleDate = new Date(sale.date);
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+
+            const dateMatch = (!start || saleDate >= start) && (!end || saleDate <= end);
+            const clientMatch = !clientMember || sale.client.toLowerCase().includes(clientMember);
+            const typeMatch = !materialType || sale.material.type === materialType;
+
+            return dateMatch && clientMatch  && typeMatch;
+        });
+
+        renderSales(filteredSales);
+    }
+
+    // Affiche toutes les ventes au chargement de la page
+    renderSales(sales);
+</script>
+
+</body>
+</html>
