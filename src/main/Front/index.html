@@ -48,13 +48,21 @@
 <body>
 <div class="container">
     <h1>Bienvenue sur notre site</h1>
-    <button class="btn" onclick="navigateToLogin()">Se connecter</button>
+    <button id="action-button" class="btn"></button>
 </div>
 
 <script>
-    // Fonction pour naviguer vers la page de connexion
-    function navigateToLogin() {
-        window.location.href = "login.html";
+    const actionButton = document.getElementById("action-button");
+    const user = localStorage.getItem("user");
+
+    if (user) {
+        // Utilisateur connecté
+        actionButton.textContent = "Accéder aux ventes";
+        actionButton.onclick = () => window.location.href = "ventes.html";
+    } else {
+        // Utilisateur non connecté
+        actionButton.textContent = "Se connecter";
+        actionButton.onclick = () => window.location.href = "login.html";
     }
 </script>
 </body>
