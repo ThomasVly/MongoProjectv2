@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter un produit</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn-submit {
+      background-color: #e65c00;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn-submit:hover {
+      background-color: #c05000;
+    }
+
+    .btn-back {
+      margin-top: 15px;
+      background-color: #c05000;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .btn-back:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+<h1>Ajouter un produit</h1>
+
+<form id="add-product-form">
+  <label for="serial-number">Numéro de série :</label>
+  <input type="text" id="serial-number" name="serialNumber" required>
+
+  <label for="brand">Marque :</label>
+  <input type="text" id="brand" name="brand" required>
+
+  <label for="model">Modèle :</label>
+  <input type="text" id="model" name="model" required>
+
+  <label for="type">Type :</label>
+  <select id="type" name="type" required>
+    <option value="">-- Sélectionner le type --</option>
+    <option value="écran">Écran</option>
+    <option value="clavier">Clavier</option>
+    <option value="souris">Souris</option>
+    <option value="tour">Tour</option>
+    <option value="laptop">Laptop</option>
+    <option value="enceintes">Enceintes</option>
+  </select>
+
+  <label for="price">Prix (€) :</label>
+  <input type="number" id="price" name="price" min="0" step="0.01" required>
+
+  <button type="submit" class="btn-submit" >Ajouter le produit</button>
+</form>
+
+<button class="btn-back" onclick="window.location.href='ventes.html'">Retour aux ventes</button>
+
+<script>
+  document.getElementById('add-product-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const product = {
+      serialNumber: document.getElementById('serial-number').value.trim(),
+      brand: document.getElementById('brand').value.trim(),
+      model: document.getElementById('model').value.trim(),
+      type: document.getElementById('type').value,
+      price: parseFloat(document.getElementById('price').value)
+    };
+
+    console.log('Produit ajouté :', product);
+    alert(`Produit "${product.model}" ajouté avec succès !`);
+    window.location.href = 'ventes.html'; // Redirection après fermeture de l'alerte
+  });
+</script>
+</body>
+</html>
