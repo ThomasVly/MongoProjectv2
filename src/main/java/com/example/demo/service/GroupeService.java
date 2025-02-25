@@ -22,7 +22,7 @@ public class GroupeService {
 
     public Groupe getGroupe(int num){
 
-        return groupeRepository.getGroupeByNumero_groupe(num);
+        return groupeRepository.getGroupeByNumeroGroupe(num);
     }
 
     public void saveGroupe(Groupe g){

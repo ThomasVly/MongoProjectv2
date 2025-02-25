@@ -10,28 +10,28 @@ import java.util.ArrayList;
 public class Groupe {
 
     @Id
-    private int numero_groupe; // L'identifiant unique
+    private int numeroGroupe; // L'identifiant unique
     private String nom;
     private String ville;
     private int code_postal;
     private ArrayList<Membre> membres;
 
     public Groupe(int num, String nom, String ville, int cp, ArrayList<Membre> mem){
-        this.numero_groupe = num;
+        this.numeroGroupe = num;
         this.nom = nom;
         this.ville = ville;
         this.code_postal = cp;
         this.membres = mem;
     }
 
-    public int getNumero_groupe() {
+    public int getNumeroGroupe() {
 
-        return numero_groupe;
+        return numeroGroupe;
     }
 
-    public void setNumero_groupe(int numero_groupe) {
+    public void setNumeroGroupe(int numeroGroupe) {
 
-        this.numero_groupe = numero_groupe;
+        this.numeroGroupe = numeroGroupe;
     }
 
     public String getNom() {

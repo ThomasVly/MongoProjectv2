@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GroupeRepository extends MongoRepository<Groupe, String> {
 
-    Groupe getGroupeByNumero_groupe(int num);
+    Groupe getGroupeByNumeroGroupe(int num);
 }
