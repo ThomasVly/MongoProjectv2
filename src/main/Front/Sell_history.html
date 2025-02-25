@@ -10,22 +10,18 @@
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
             padding: 20px;
-
         }
 
         h1 {
-            color: #fff; /* Couleur du texte en blanc */
-            margin: 0 auto 20px; /* Centrer avec des marges automatiques */
+            color: #fff;
+            margin: 0 auto 20px;
             padding: 10px 20px;
-            background-color: #e65c00; /* Fond orange */
-            border-radius: 8px; /* Coins arrondis */
-            width: fit-content; /* Ajuste la largeur au contenu */
+            background-color: #e65c00;
+            border-radius: 8px;
+            width: fit-content;
             font-size: 28px;
-            display: block; /* Affiche le titre comme un élément block pour centrer */
+            display: block;
         }
-
-
-
 
         .filters, .sales-container {
             max-width: 900px;
@@ -103,7 +99,6 @@
 <body>
 
 <h1>Historique des Ventes</h1>
-
 
 <div class="filters">
     <h2>Filtres de recherche</h2>
@@ -185,6 +180,11 @@
         }
     ];
 
+    function formatDateToFR(dateString) {
+        const [year, month, day] = dateString.split('-');
+        return `${day}/${month}/${year}`;
+    }
+
     function renderSales(filteredSales) {
         const salesList = document.getElementById('sales-list');
         salesList.innerHTML = '';
@@ -199,7 +199,7 @@
             saleItem.className = 'sale-item';
             saleItem.innerHTML = `
                 <h3>${sale.material.brand} ${sale.material.model} (${sale.material.type})</h3>
-                <p><strong>Date de vente :</strong> ${sale.date}</p>
+                <p><strong>Date de vente :</strong> ${formatDateToFR(sale.date)}</p>
                 <p><strong>Client :</strong> ${sale.client}</p>
                 <p><strong>Vendeur :</strong> ${sale.seller}</p>
                 <p><strong>Numéro de série :</strong> ${sale.material.serial}</p>
@@ -226,7 +226,7 @@
             const sellerMatch = !activeMember || sale.seller.toLowerCase().includes(activeMember);
             const typeMatch = !materialType || sale.material.type === materialType;
 
-            return dateMatch && clientMatch && sellerMatch  && typeMatch;
+            return dateMatch && clientMatch && sellerMatch && typeMatch;
         });
 
         renderSales(filteredSales);
