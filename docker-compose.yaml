@@ -1,39 +1,14 @@
 version: '3.8'
 services:
-  mongodb1:
+  mongodb:
     image: mongo:5.0
-    container_name: mongodb1
+    container_name: mongodb
     ports:
       - "27017:27017"
-    #command: [ "/bin/bash", "-c", "mongod --replSet rs0 & sleep 30 && mongosh /scripts/init-replica.js" ]
-    command: ["--replSet", "rs0"]
     volumes:
-      - mongo1_data:/data/db
-      - ./init-replica.js:/scripts/init-replica.js
+      - mongo-data:/data/db
     environment:
       MONGO_INITDB_DATABASE: mongoprojectdb2
-
-  mongodb2:
-    image: mongo:5.0
-    container_name: mongodb2
-    restart: always
-    ports:
-      - "27018:27017"
-    command: ["--replSet", "rs0"]
-    volumes:
-      - mongo2_data:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: mongoprojectdb2
-
-  mongo-arbiter:
-    image: mongo:5.0
-    container_name: mongo-arbiter
-    restart: always
-    command: [ "--replSet", "rs0" ]
-    ports:
-      - "27019:27017"
-    volumes:
-      - mongo_arbiter_data:/data/db
 
   app:
     build:
@@ -43,11 +18,9 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb1:27017,mongodb2:27017/mongoprojectdb2?replicaSet=rs0
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/mongoprojectdb2
     depends_on:
-      - mongodb1
+      - mongodb
 
 volumes:
-  mongo1_data:
-  mongo2_data:
-  mongo_arbiter_data:
+  mongo-data:
