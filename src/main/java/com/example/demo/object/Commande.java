@@ -14,7 +14,7 @@ public class Commande {
     private Membre membre_client; // L'identifiant unique
     private Membre membre_vendeur;
     private Date date;
-    private ArrayList<Materiel> liste_materiel;
+    private ArrayList<Materiel> listeMateriel;
     private float prix_total;
 
     public Commande(String id, Membre mc, Membre mv, Date d, ArrayList<Materiel> materiel, float ttl){
@@ -23,7 +23,7 @@ public class Commande {
         this.membre_client = mc;
         this.membre_vendeur = mv;
         this.date = d;
-        this.liste_materiel = materiel;
+        this.listeMateriel = materiel;
         this.prix_total = ttl;
     }
 
@@ -59,12 +59,12 @@ public class Commande {
         this.date = date;
     }
 
-    public ArrayList<Materiel> getListe_materiel() {
-        return liste_materiel;
+    public ArrayList<Materiel> getListeMateriel() {
+        return listeMateriel;
     }
 
-    public void setListe_materiel(ArrayList<Materiel> liste_materiel) {
-        this.liste_materiel = liste_materiel;
+    public void setListeMateriel(ArrayList<Materiel> listeMateriel) {
+        this.listeMateriel = listeMateriel;
     }
 
     public float getPrix_total() {
