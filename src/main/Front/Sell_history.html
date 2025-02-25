@@ -121,6 +121,10 @@
             <input type="text" id="client-member" placeholder="Nom du client">
         </div>
         <div>
+            <label for="active-member">Membre actif :</label>
+            <input type="text" id="active-member" placeholder="Nom du vendeur">
+        </div>
+        <div>
             <label for="material-type">Matériel :</label>
             <select id="material-type">
                 <option value="">Tous</option>
@@ -197,6 +201,7 @@
                 <h3>${sale.material.brand} ${sale.material.model} (${sale.material.type})</h3>
                 <p><strong>Date de vente :</strong> ${sale.date}</p>
                 <p><strong>Client :</strong> ${sale.client}</p>
+                <p><strong>Vendeur :</strong> ${sale.seller}</p>
                 <p><strong>Numéro de série :</strong> ${sale.material.serial}</p>
                 <p><strong>Prix :</strong> ${sale.material.price}</p>
             `;
@@ -208,6 +213,7 @@
         const startDate = document.getElementById('start-date').value;
         const endDate = document.getElementById('end-date').value;
         const clientMember = document.getElementById('client-member').value.toLowerCase();
+        const activeMember = document.getElementById('active-member').value.toLowerCase();
         const materialType = document.getElementById('material-type').value;
 
         const filteredSales = sales.filter(sale => {
@@ -217,9 +223,10 @@
 
             const dateMatch = (!start || saleDate >= start) && (!end || saleDate <= end);
             const clientMatch = !clientMember || sale.client.toLowerCase().includes(clientMember);
+            const sellerMatch = !activeMember || sale.seller.toLowerCase().includes(activeMember);
             const typeMatch = !materialType || sale.material.type === materialType;
 
-            return dateMatch && clientMatch  && typeMatch;
+            return dateMatch && clientMatch && sellerMatch  && typeMatch;
         });
 
         renderSales(filteredSales);
