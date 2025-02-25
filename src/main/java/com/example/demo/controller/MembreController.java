@@ -122,7 +122,7 @@ public class MembreController {
         List<Commande> b = new ArrayList<>(Collections.emptyList());
 
         for (Commande c : a){
-            for (Materiel e : c.getListe_materiel())
+            for (Materiel e : c.getListeMateriel())
                  if (e.getNumero_serie() == numserie && !b.contains(c)){
                      b.add(c);
             }
