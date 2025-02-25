@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface CommandeRepository extends MongoRepository<Commande, String> {
 
-    List<Commande> findByListe_materielContaining(String searchTerm);
+    List<Commande> findByListeMaterielContaining(String searchTerm);
 }
