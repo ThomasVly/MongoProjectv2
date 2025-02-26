@@ -87,8 +87,18 @@
     <h1>Ajouter un utilisateur</h1>
     <form id="add-user-form">
         <div class="form-group">
-            <label for="user-id">Identifiant</label>
-            <input type="text" id="user-id" placeholder="Entrez l'identifiant" required>
+            <label for="user-nom">Nom</label>
+            <input type="text" id="user-nom" placeholder="Entrez le nom" required>
+        </div>
+
+        <div class="form-group">
+            <label for="user-prenom">Prénom</label>
+            <input type="text" id="user-prenom" placeholder="Entrez le prénom" required>
+        </div>
+
+        <div class="form-group">
+            <label for="user-adresse">Adresse</label>
+            <input type="text" id="user-adresse" placeholder="Entrez l'adresse" required>
         </div>
 
         <div class="form-group">
@@ -105,8 +115,8 @@
             <label for="user-role">Rôle</label>
             <select id="user-role" required>
                 <option value="" disabled selected>Choisissez un rôle</option>
-                <option value="admin">Administrateur</option>
-                <option value="user">Utilisateur</option>
+                <option value="admin">Actif</option>
+                <option value="user">Client</option>
             </select>
         </div>
 
@@ -119,20 +129,40 @@
     document.getElementById("add-user-form").addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const id = document.getElementById("user-id").value.trim();
+        const nom = document.getElementById("user-nom").value.trim();
+        const prenom = document.getElementById("user-prenom").value.trim();
+        const adresse = document.getElementById("user-adresse").value.trim();
         const email = document.getElementById("user-email").value.trim();
         const password = document.getElementById("user-password").value.trim();
         const role = document.getElementById("user-role").value;
 
-        if (id && email && password && role) {
-            const users = JSON.parse(localStorage.getItem("users")) || [];
+        if (nom && prenom && adresse && email && password && role) {
+            const newUser = {
+                nom: nom,
+                prenom: prenom,
+                adresse: adresse,
+                email: email,
+                type_membre: role,
+                password: password
+            };
 
-            const newUser = { id, email, password, role };
-            users.push(newUser);
-            localStorage.setItem("users", JSON.stringify(users));
-
-            alert("Utilisateur ajouté avec succès !");
-            document.getElementById("add-user-form").reset();
+            // Envoi des données vers le backend avec fetch
+            fetch('http://localhost:8080/membre/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Utilisateur ajouté avec succès !");
+                    document.getElementById("add-user-form").reset();
+                })
+                .catch(error => {
+                    alert("Erreur lors de l'ajout de l'utilisateur");
+                    console.error("Erreur : ", error);
+                });
         } else {
             alert("Veuillez remplir tous les champs !");
         }
