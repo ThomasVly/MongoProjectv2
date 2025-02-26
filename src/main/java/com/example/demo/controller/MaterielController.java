@@ -5,10 +5,7 @@ import com.example.demo.object.Materiel;
 import com.example.demo.service.CommandeService;
 import com.example.demo.service.MaterielService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/materiel")
+@CrossOrigin(origins = "http://localhost:3000")  // Autorise uniquement ton front-end
 public class MaterielController {
 
     private final MaterielService materielService;

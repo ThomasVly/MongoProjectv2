@@ -13,13 +13,20 @@ public class Materiel {
     private String type;
     private float prix;
 
-    public Materiel(String num, String mar, String mod, String type, float prix){
-        this.numero_serie = num;
-        this.marque = mar;
-        this.modele = mod;
+
+    public Materiel(String numero_serie, String marque, String modele, String type, float prix){
+        this.numero_serie = numero_serie;
+        this.marque = marque;
+        this.modele = modele;
         this.type = type;
         this.prix = prix;
     }
+
+
+    public Materiel() {
+        // Constructeur sans argument requis par Spring
+    }
+
 
     public String getNumero_serie() {
         return numero_serie;

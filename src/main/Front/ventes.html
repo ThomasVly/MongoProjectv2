@@ -206,6 +206,24 @@
         productsContainer.appendChild(productItem);
     });
 
+    function fetchMateriels() {
+        return fetch("http://localhost:8080/materiel/getAll", {
+            method: "GET", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+
+        })
+            .then(response => {
+                return response.json
+            })
+
+    }
+
+    // Appelle la fonction pour récupérer et afficher les matériels
+    fetchMateriels();
+
+
     loadNavbar();
 </script>
 </body>
