@@ -1,0 +1,25 @@
+[
+{
+  "numero_serie": "ABC12345",  
+  "marque": "Dell",
+  "modele": "XPS 15",
+  "type": "Ordinateur Portable",
+  "prix": 1499.99
+},
+{
+      "_id": "67bf7749496b674508ea906c",
+      "numero_serie": "XYZ67890",
+      "marque": "HP",
+      "modele": "EliteBook 840",
+      "type": "Ordinateur Portable",
+      "prix": 1299.99
+    },
+{
+"_id": "67bf7749496b674508ea906848c",
+      "numero_serie": "XYZ478770",
+      "marque": "Alienware",
+      "modele": "GAMING PC",
+      "type": "Ordinateur Portable",
+      "prix": 20000.99
+    }
+]

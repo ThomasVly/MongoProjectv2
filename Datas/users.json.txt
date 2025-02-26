@@ -1,0 +1,34 @@
+[
+  {
+    "nom": "Dupont",
+    "prenom": "Jean",
+    "adresse": "10 rue de la Paix, Paris",
+    "email": "jean.dupont@example.com",
+    "type_membre": "actif",
+    "password": "motdepasse123"
+  },
+  {
+    "nom": "Martin",
+    "prenom": "Claire",
+    "adresse": "22 avenue des Champs, Lyon",
+    "email": "claire.martin@example.com",
+    "type_membre": "client",
+    "password": "clientpass456"
+  },
+  {
+    "nom": "Lemoine",
+    "prenom": "Pierre",
+    "adresse": "45 boulevard St-Germain, Bordeaux",
+    "email": "pierre.lemoine@example.com",
+    "type_membre": "actif",
+    "password": "pierre2023"
+  },
+  {
+    "nom": "Durand",
+    "prenom": "Sophie",
+    "adresse": "7 rue de la Liberté, Marseille",
+    "email": "sophie.durand@example.com",
+    "type_membre": "client",
+    "password": "sophie789"
+  }
+]

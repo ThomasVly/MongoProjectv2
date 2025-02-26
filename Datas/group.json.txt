@@ -1,0 +1,62 @@
+{
+  "numeroGroupe": "1",
+  "nom": "Groupe Alpha",
+  "ville": "Lille",
+  "code_postal": 59000,
+  "membres": [
+    {
+      "id": "67bf773f496b674508ea9066",
+      "nom": "Dupont",
+      "prenom": "Jean",
+      "adresse": "10 rue de la Paix, Paris",
+      "email": "jean.dupont@example.com",
+      "type_membre": "actif",
+      "password": "motdepasse123"
+    },
+    {
+      "id": "67bf773f496b674508ea9067",
+      "nom": "Martin",
+      "prenom": "Claire",
+      "adresse": "22 avenue des Champs, Lyon",
+      "email": "claire.martin@example.com",
+      "type_membre": "client",
+      "password": "clientpass456"
+    },
+    {
+      "id": "67bf773f496b674508ea9068",
+      "nom": "Lemoine",
+      "prenom": "Pierre",
+      "adresse": "45 boulevard St-Germain, Bordeaux",
+      "email": "pierre.lemoine@example.com",
+      "type_membre": "actif",
+      "password": "pierre2023"
+    },
+    {
+      "id": "67bf773f496b674508ea9069",
+      "nom": "Durand",
+      "prenom": "Sophie",
+      "adresse": "7 rue de la Liberté, Marseille",
+      "email": "sophie.durand@example.com",
+      "type_membre": "client",
+      "password": "sophie789"
+    }
+  ],
+  "materiels": [
+    {
+      "id": "67bf7749496b674508ea906b",
+      "numero_serie": "ABC12345",
+      "marque": "Dell",
+      "modele": "XPS 15",
+      "type": "Ordinateur Portable",
+      "prix": 1499.99
+    },
+{
+      "_id": "67bf7749496b674508ea906c",
+      "numero_serie": "XYZ67890",
+      "marque": "HP",
+      "modele": "EliteBook 840",
+      "type": "Ordinateur Portable",
+      "prix": 1299.99
+    }
+  ]
+}
