@@ -92,10 +92,6 @@
 </div>
 
 <script>
-    // Identifiants de base
-    const validEmail = "admin@admin.com";
-    const validPassword = "admin";
-
     // Gestionnaire de soumission du formulaire
     document.getElementById("login-form").addEventListener("submit", function (e) {
         e.preventDefault(); // Empêche le rechargement de la page
@@ -103,16 +99,27 @@
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        // Vérification des identifiants
-        if (email === validEmail && password === validPassword) {
-            // Sauvegarde des informations de l'utilisateur dans le stockage local
-            localStorage.setItem("user", JSON.stringify({ email }));
+        // Envoi de la requête de connexion à l'API
 
-            // Redirection vers la page des ventes
-            window.location.href = "ventes.html";
-        } else {
-            alert("Adresse mail ou mot de passe incorrect !");
-        }
+            fetch("http://localhost:8080/membre/login?mail=" + email + "&pass=" + password, {
+            method: "POST",
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {  // Si la connexion est valide (vrai)
+                    // Sauvegarde des informations de l'utilisateur dans le stockage local
+                    localStorage.setItem("user", JSON.stringify({ email }));
+
+                    // Redirection vers la page des ventes
+                    window.location.href = "ventes.html";
+                } else {
+                    alert("Adresse mail ou mot de passe incorrect !");
+                }
+            })
+            .catch(error => {
+                alert("Erreur lors de la connexion, veuillez réessayer.");
+                console.error("Erreur de connexion:", error);
+            });
     });
 </script>
 </body>

@@ -144,6 +144,8 @@
     }
 
     function fetchMateriels() {
+        fetch("http://localhost:8080/membre/getAll")
+
         fetch("http://localhost:8080/materiel/getAll")
             .then(response => response.json())
             .then(materiels => {
