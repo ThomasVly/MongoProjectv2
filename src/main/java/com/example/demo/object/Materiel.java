@@ -5,21 +5,27 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "materiel")
 public class Materiel {
-
-    @Id
-    private String numero_serie; // L'identifiant unique
+    private String numero_serie;
     private String marque;
     private String modele;
     private String type;
     private float prix;
 
-    public Materiel(String num, String mar, String mod, String type, float prix){
-        this.numero_serie = num;
-        this.marque = mar;
-        this.modele = mod;
+    // Getters et Setters
+
+    public Materiel(String numero_serie, String marque, String modele, String type, float prix) {
+        this.numero_serie = numero_serie;
+        this.marque = marque;
+        this.modele = modele;
         this.type = type;
         this.prix = prix;
     }
+
+
+    public Materiel() {
+        // Constructeur sans argument requis par Spring
+    }
+
 
     public String getNumero_serie() {
         return numero_serie;
@@ -59,5 +65,15 @@ public class Materiel {
 
     public void setPrix(float prix) {
         this.prix = prix;
+    }
+
+    public String toString() {
+        return "Materiel{" +
+                "numero_serie='" + numero_serie + '\'' +
+                ", marque='" + marque + '\'' +
+                ", modele='" + modele + '\'' +
+                ", type='" + type + '\'' +
+                ", prix=" + prix +
+                '}';
     }
 }

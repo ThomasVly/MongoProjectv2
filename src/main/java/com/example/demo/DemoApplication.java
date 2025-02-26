@@ -41,7 +41,7 @@ public class DemoApplication {
 		Commande c = new Commande("1",a,b,d,materiels,12);
 		commandeService.saveCommande(c);
 		ArrayList<Membre> m = new ArrayList<Membre>(Arrays.asList(a,b));
-		groupeService.saveGroupe(new Groupe(1, "test", "paris", 2232, m));
+		groupeService.saveGroupe(new Groupe("1", "test", "paris", 2232, m, materiels));
 	}
 	public static void main(String[] args) {
 

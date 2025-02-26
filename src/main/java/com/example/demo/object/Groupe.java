@@ -10,26 +10,28 @@ import java.util.ArrayList;
 public class Groupe {
 
     @Id
-    private int numeroGroupe; // L'identifiant unique
+    private String numeroGroupe; // L'identifiant unique
     private String nom;
     private String ville;
     private int code_postal;
     private ArrayList<Membre> membres;
+    private ArrayList<Materiel> materiels;
 
-    public Groupe(int num, String nom, String ville, int cp, ArrayList<Membre> mem){
-        this.numeroGroupe = num;
+    public Groupe(String numeroGroupe, String nom, String ville, int code_postal, ArrayList<Membre> membres, ArrayList<Materiel> materiels) {
+        this.numeroGroupe = numeroGroupe;
         this.nom = nom;
         this.ville = ville;
-        this.code_postal = cp;
-        this.membres = mem;
+        this.code_postal = code_postal;
+        this.membres = membres;
+        this.materiels = materiels;
     }
 
-    public int getNumeroGroupe() {
+    public String getNumeroGroupe() {
 
         return numeroGroupe;
     }
 
-    public void setNumeroGroupe(int numeroGroupe) {
+    public void setNumeroGroupe(String numeroGroupe) {
 
         this.numeroGroupe = numeroGroupe;
     }
@@ -63,12 +65,26 @@ public class Groupe {
         this.code_postal = code_postal;
     }
 
+
     public ArrayList<Membre> getMembres() {
         return membres;
     }
 
     public void setMembres(ArrayList<Membre> membres) {
         this.membres = membres;
+    }
+
+    public Groupe addMaterial(Materiel materiel){
+        this.materiels.add(materiel);
+        return this;
+    }
+
+    public ArrayList<Materiel> getMateriels() {
+        return materiels;
+    }
+
+    public void setMateriel(ArrayList<Materiel> materiels) {
+        this.materiels = materiels;
     }
 
     public Groupe addMembre(Membre membre){

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventes</title>
+    <title>Ventes - Matériels</title>
     <style>
         body {
             margin: 0;
@@ -27,14 +27,14 @@
             color: #555;
         }
 
-        .products-container {
+        .materiels-container {
             display: flex;
             flex-direction: column;
             width: 100%;
             max-width: 600px;
         }
 
-        .product-item {
+        .materiel-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -47,34 +47,34 @@
             cursor: pointer;
         }
 
-        .product-item:hover {
+        .materiel-item:hover {
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .product-details {
+        .materiel-details {
             flex-grow: 1;
         }
 
-        .product-name {
+        .materiel-name {
             font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
             color: #333;
         }
 
-        .product-description {
+        .materiel-description {
             font-size: 14px;
             color: #666;
         }
 
-        .product-price {
+        .materiel-price {
             font-size: 16px;
             font-weight: bold;
             color: #ff6c00;
         }
 
-        .btn-logout {
-            margin-top: 20px;
+        .btn-logout, .btn-add-materiel, .btn-add-user, .btn-add-group{
+            margin-top: 10px;
             background-color: #e65c00;
             color: #fff;
             padding: 10px 20px;
@@ -84,129 +84,115 @@
             font-size: 16px;
         }
 
-        .btn-logout:hover {
+        .btn-logout:hover, .btn-add-materiel:hover, .btn-add-user:hover, .btn-add-group:hover {
             background-color: #c05000;
         }
 
-        .btn-add-product {
-            margin-top: 5px;
-            background-color: #e65c00; /* Couleur orange */
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            align-self: flex-end; /* Aligner le bouton à gauche */
-            margin-bottom: 20px;
+        .btn-add-materiel, .btn-add-user, .btn-add-group {
+            align-self: flex-end;
+            margin-bottom: 10px;
         }
 
-        .btn-add-product:hover {
-            background-color: #c05000;
-        }
     </style>
 </head>
 <body>
-<div id="navbar-container"></div> <!-- Conteneur pour la navbar -->
+<div id="navbar-container"></div>
 
-<h1>Page des Ventes</h1>
+<h1>Page des Matériels</h1>
 <div class="user-info" id="user-info">
     Chargement des informations utilisateur...
 </div>
-<div class="products-container" id="products-container">
 
-<!-- Ajouter un produit -->
-<button class="btn-add-product" onclick="window.location.href='add_product.html'">Ajouter un produit</button>
-
-<!-- Nouveau bouton pour ajouter un utilisateur -->
-<button class="btn-add-product" onclick="window.location.href='add_user.html'">Ajouter un utilisateur</button>
-
-
-    <!-- Les produits seront générés ici dynamiquement -->
+<div class="materiels-container" id="materiels-container">
+    <button class="btn-add-materiel" onclick="window.location.href='add_Product.html'">Ajouter un matériel</button>
+    <button class="btn-add-user" onclick="window.location.href='add_user.html'">Ajouter un utilisateur</button>
+    <button class="btn-add-group" onclick="window.location.href='add_modify_group.html'">Ajouter/Modifier les groupes</button>
 </div>
 
 <button class="btn-logout" onclick="logout()">Se déconnecter</button>
 
 <script>
-    // Fonction pour charger la navbar depuis un fichier externe
+    // Fonction de chargement de la navbar
     function loadNavbar() {
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
-                updateAuthLink(); // Met à jour le lien de connexion/déconnexion après le chargement de la navbar
+                updateAuthLink();
             })
             .catch(error => console.error('Erreur de chargement de la navbar:', error));
     }
 
-    // Vérifie si l'utilisateur est connecté et met à jour la zone de connexion / déconnexion
+    // Met à jour le lien de connexion/déconnexion
     function updateAuthLink() {
         const user = JSON.parse(localStorage.getItem("user"));
         const authLink = document.getElementById("auth-link");
 
-        if (authLink) { // Vérifie que l'élément existe avant de le manipuler
-            if (user) {
-                authLink.innerHTML = `<a href="#" onclick="logout()">Se déconnecter</a>`;
-            } else {
-                authLink.innerHTML = `<a href="login.html">Se connecter</a>`;
-            }
+        if (authLink) {
+            authLink.innerHTML = user ? `<a href="#" onclick="logout()">Se déconnecter</a>` : `<a href="login.html">Se connecter</a>`;
         }
     }
 
     // Fonction de déconnexion
     function logout() {
-        localStorage.removeItem("user"); // Supprimer l'utilisateur du stockage local
-        window.location.href = "index.html"; // Rediriger vers la page d'accueil
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
     }
 
-    // Vérifier si l'utilisateur est connecté
+    // Vérification de l'utilisateur
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        // Si l'utilisateur n'est pas connecté, rediriger vers la page de connexion
-        window.location.href = "login.html";
+        window.location.href = "login.html";  // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     } else {
-        // Afficher "Bonjour" suivi de la partie avant le "@" de l'email de l'utilisateur
-        const email = user.email;
-        const username = email.split('@')[0]; // Récupérer la partie avant le "@"
-        document.getElementById("user-info").innerText = `Bonjour, ${username}`;
+        const username = user.email.split('@')[0];
+        const prenom = user.prenom;
+        document.getElementById("user-info").innerText = `Bonjour, ${prenom}`;
+
+        // Vérification si l'utilisateur est actif
+        if (user.type_membre !== "actif") {
+            // Si l'utilisateur n'est pas actif, on cache les boutons d'ajout
+            document.querySelector(".btn-add-materiel").style.display = "none";
+            document.querySelector(".btn-add-user").style.display = "none";
+        }
     }
 
-    // Exemple de liste de produits
-    const products = [
-        { id: 1, name: "Ordinateur portable", description: "Un PC rapide et performant.", price: "1200€" },
-        { id: 2, name: "Téléphone", description: "Un smartphone avec une autonomie exceptionnelle.", price: "800€" },
-        { id: 3, name: "Casque Bluetooth", description: "Son haute qualité et confort.", price: "150€" },
-        { id: 4, name: "Clavier mécanique", description: "Un clavier robuste pour le gaming.", price: "100€" },
-        { id: 5, name: "Montre connectée", description: "Suivi de santé et notifications.", price: "200€" }
-    ];
+    // Fonction pour récupérer les matériels
+    function fetchMateriels() {
+        fetch("http://localhost:8080/materiel/getAll")
+            .then(response => response.json())
+            .then(materiels => {
+                const container = document.getElementById("materiels-container");
 
-    // Afficher les produits dans le conteneur
-    const productsContainer = document.getElementById("products-container");
+                materiels.forEach(materiel => {
+                    const materielItem = document.createElement("div");
+                    materielItem.className = "materiel-item";
 
-    products.forEach(product => {
-        // Créer un élément de produit
-        const productItem = document.createElement("div");
-        productItem.className = "product-item";
+                    materielItem.innerHTML = `
+                        <div class="materiel-details">
+                            <div class="materiel-name">${materiel.marque} - ${materiel.modele}</div>
+                            <div class="materiel-description">Type: ${materiel.type} | N° Série: ${materiel.numero_serie}</div>
+                        </div>
+                        <div class="materiel-price">${materiel.prix.toFixed(2)} €</div>
+                    `;
 
-        productItem.innerHTML = `
-        <div class="product-details">
-          <div class="product-name">${product.name}</div>
-          <div class="product-description">${product.description}</div>
-        </div>
-        <div class="product-price">${product.price}</div>
-      `;
+                    materielItem.addEventListener("click", () => {
+                        localStorage.setItem("ActualMaterial", `${materiel.numero_serie}`);
+                        window.location.href = `produit.html`;
+                    });
 
-        // Ajouter un gestionnaire d'événements pour rediriger vers la page produit
-        productItem.addEventListener("click", () => {
-            window.location.href = `produit.html?id=${product.id}`;
-        });
+                    container.appendChild(materielItem);
+                });
+            })
+            .catch(error => console.error('Erreur lors de la récupération des matériels:', error));
+    }
 
-        // Ajouter le produit au conteneur
-        productsContainer.appendChild(productItem);
-    });
-
+    // Chargement des informations et des matériels
+    fetch("http://localhost:8080/membre/getAll")
+        .then(response => response.json())
     loadNavbar();
+    fetchMateriels();
 </script>
+
 </body>
 </html>

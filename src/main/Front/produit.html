@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produit</title>
+    <title>Détails du Matériel</title>
     <style>
+
+        #navbar-container {
+            margin-bottom: 20px; /* ✅ Ajoute de l'espace sous la navbar */
+        }
+
+
         body {
             display: flex;
             flex-direction: column;
@@ -12,21 +18,35 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
+            background-color: #f9f9f9;
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; /* ✅ Ajout d'espace entre la navbar et le conteneur */
         }
+
 
         h1 {
             font-size: 24px;
             color: #333;
+            margin-bottom: 15px;
         }
 
-        p {
+        .detail-item {
+            margin-bottom: 10px;
             font-size: 16px;
-            color: #666;
+            color: #555;
+        }
+
+        .detail-item span {
+            font-weight: bold;
+            color: #333;
         }
 
         .btn {
@@ -37,6 +57,7 @@
             color: white;
             text-decoration: none;
             border-radius: 4px;
+            text-align: center;
         }
 
         .btn:hover {
@@ -46,69 +67,86 @@
 </head>
 <body>
 
-<!-- Zone où la navbar sera injectée -->
 <div id="navbar-container"></div>
 
-<!-- Contenu de la page produit -->
 <div class="container">
-    <h1 id="product-title">Détails du produit</h1>
-    <p id="product-price">Prix : </p>
-    <a href="ventes.html" class="btn">Retour à la liste des produits</a>
+    <h1 id="materiel-title">Détails du matériel</h1>
+    <div id="materiel-details">
+        Chargement des informations du matériel...
+    </div>
+    <a href="ventes.html" class="btn" onclick="clearActualMaterial()">Retour à la liste des matériels</a>
 </div>
 
 <script>
-    // Fonction pour charger la navbar depuis un fichier externe
+    // 🔄 Chargement de la navbar
     function loadNavbar() {
         fetch('navbar.html')
             .then(response => response.text())
             .then(data => {
                 document.getElementById('navbar-container').innerHTML = data;
-                updateAuthLink(); // Met à jour le lien de connexion/déconnexion après le chargement de la navbar
+                updateAuthLink();
             })
             .catch(error => console.error('Erreur de chargement de la navbar:', error));
     }
 
-    // Vérifie si l'utilisateur est connecté et met à jour la zone de connexion / déconnexion
     function updateAuthLink() {
         const user = JSON.parse(localStorage.getItem("user"));
         const authLink = document.getElementById("auth-link");
 
-        if (authLink) { // Vérifie que l'élément existe avant de le manipuler
-            if (user) {
-                authLink.innerHTML = `<a href="#" onclick="logout()">Se déconnecter</a>`;
-            } else {
-                authLink.innerHTML = `<a href="login.html">Se connecter</a>`;
-            }
+        if (authLink) {
+            authLink.innerHTML = user
+                ? `<a href="#" onclick="logout()">Se déconnecter</a>`
+                : `<a href="login.html">Se connecter</a>`;
         }
     }
 
-    // Fonction de déconnexion
     function logout() {
-        localStorage.removeItem("user"); // Supprimer l'utilisateur du stockage local
-        window.location.href = "index.html"; // Rediriger vers la page d'accueil
+        localStorage.removeItem("user");
+        window.location.href = "index.html";
     }
 
+    // 🆔 Récupération de l'identifiant du matériel depuis localStorage
+    const numeroSerie = localStorage.getItem("ActualMaterial");
 
-    // Simule les données des produits
-    const products = {
-        1: { name: "Produit A", price: "20€" },
-        2: { name: "Produit B", price: "30€" },
-    };
-
-    // Récupère l'ID du produit depuis l'URL
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
-
-    // Affiche les détails du produit
-    if (products[productId]) {
-        document.getElementById("product-title").innerText = products[productId].name;
-        document.getElementById("product-price").innerText = "Prix : " + products[productId].price;
-    } else {
-        document.body.innerHTML = "<h1>Produit non trouvé</h1>";
+    function afficherMateriel(materiel) {
+        document.getElementById("materiel-title").innerText = `${materiel.marque} ${materiel.modele}`;
+        document.getElementById("materiel-details").innerHTML = `
+            <div class="detail-item"><span>Numéro de série :</span> ${materiel.numero_serie}</div>
+            <div class="detail-item"><span>Marque :</span> ${materiel.marque}</div>
+            <div class="detail-item"><span>Modèle :</span> ${materiel.modele}</div>
+            <div class="detail-item"><span>Type :</span> ${materiel.type}</div>
+            <div class="detail-item"><span>Prix :</span> ${materiel.prix.toFixed(2)} €</div>
+        `;
     }
 
-    // Charger la navbar dès que la page est prête
+    function fetchMateriel() {
+        if (!numeroSerie) {
+            document.getElementById("materiel-details").innerHTML = "<h3>Identifiant du matériel non fourni.</h3>";
+            return;
+        }
+
+        fetch("http://localhost:8080/materiel/getAll")
+            .then(response => response.json())
+            .then(materiels => {
+                const materiel = materiels.find(m => m.numero_serie === numeroSerie);
+
+                if (materiel) {
+                    afficherMateriel(materiel);
+                } else {
+                    document.getElementById("materiel-details").innerHTML = "<h3>Matériel non trouvé.</h3>";
+                }
+            })
+            .catch(() => {
+                document.getElementById("materiel-details").innerHTML = "<h3>Erreur lors de la récupération des matériels.</h3>";
+            });
+    }
+
+    function clearActualMaterial() {
+        localStorage.removeItem("ActualMaterial");
+    }
+
     loadNavbar();
+    fetchMateriel();
 </script>
 
 </body>

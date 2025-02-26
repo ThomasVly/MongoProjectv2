@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.object.Commande;
 import com.example.demo.object.Groupe;
-import com.example.demo.object.Materiel;
 import com.example.demo.object.Membre;
 import com.example.demo.service.CommandeService;
 import com.example.demo.service.MaterielService;
@@ -12,8 +10,6 @@ import com.example.demo.service.GroupeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sound.midi.MetaMessage;
-import javax.swing.*;
 import java.util.*;
 
 @RestController
@@ -41,7 +37,7 @@ public class MembreController {
     @GetMapping("/addToGroup")
     public void addMembreToGroup(Membre membre, int num){
 
-        Groupe tt = groupeService.getGroupe(num).addMembre(membre);
+        Groupe tt = groupeService.getGroupe(String.valueOf(num)).addMembre(membre);
         groupeService.saveGroupe(tt);
 
     }
@@ -50,6 +46,13 @@ public class MembreController {
 
         return membreService.validateLogin(mail, pass);
     }
+
+    @GetMapping("/getAll")
+    public List<Membre> getAllMember() {
+        return membreService.getAllMembers();
+    }
+
+
 
 
 
