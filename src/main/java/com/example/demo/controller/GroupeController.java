@@ -31,11 +31,10 @@ public class GroupeController {
         this.commandeService = commandeService;
     }
 
-    @GetMapping("/createGroup")
-    public void createGroup(String num, String nom, String ville, int cp, ArrayList<Membre> membres, ArrayList<Materiel> materiel){
+    @PostMapping("/createGroup")
+    public void createGroup(@RequestBody Groupe groupe) {
 
-        ArrayList<Membre> m = new ArrayList<>();
-        groupeService.saveGroupe(new Groupe(num,nom,ville, cp, membres, materiel));
+        groupeService.saveGroupe(groupe);
     }
 
     @GetMapping("/getAll")

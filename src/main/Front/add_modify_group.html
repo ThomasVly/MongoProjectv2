@@ -141,6 +141,7 @@
 <div class="group-container" id="groupContainer"></div>
 <button class="btn-back" onclick="window.location.href='ventes.html'">Retour aux ventes</button>
 
+<!-- Modal de modification -->
 <div class="modal" id="updateModal">
     <div class="modal-content">
         <h3>Mettre à jour le groupe</h3>
@@ -149,6 +150,18 @@
         <input type="number" id="updateCodePostal" placeholder="Code Postal">
         <button class="btn-update" onclick="submitUpdate()">Enregistrer</button>
         <button class="btn-close" onclick="closeUpdateModal()">Annuler</button>
+    </div>
+</div>
+
+<!-- Modal d'ajout de groupe -->
+<div class="modal" id="addGroupModal">
+    <div class="modal-content">
+        <h3>Ajouter un groupe</h3>
+        <input type="text" id="addNom" placeholder="Nom du groupe">
+        <input type="text" id="addVille" placeholder="Ville">
+        <input type="number" id="addCodePostal" placeholder="Code Postal">
+        <button class="btn-add-group" onclick="submitAddGroup()">Ajouter</button>
+        <button class="btn-close" onclick="closeAddGroupModal()">Annuler</button>
     </div>
 </div>
 
@@ -232,9 +245,41 @@
         }
     }
 
-
     function openAddGroupForm() {
-        alert("Ouverture du formulaire d'ajout de groupe.");
+        document.getElementById('addGroupModal').style.display = 'flex';
+    }
+
+    function closeAddGroupModal() {
+        document.getElementById('addGroupModal').style.display = 'none';
+    }
+
+    async function submitAddGroup() {
+        const nom = document.getElementById('addNom').value.trim();
+        const ville = document.getElementById('addVille').value.trim();
+        const codePostal = parseInt(document.getElementById('addCodePostal').value, 10);
+
+        if (!nom || !ville || isNaN(codePostal)) {
+            return alert('Veuillez remplir tous les champs correctement.');
+        }
+
+        const newGroup = { nom, ville, code_postal: codePostal };
+
+        try {
+            const response = await fetch('http://localhost:8080/groupe/createGroup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newGroup)
+            });
+
+            if (!response.ok) throw new Error('Erreur lors de l\'ajout du groupe');
+
+            alert('Groupe ajouté avec succès !');
+            closeAddGroupModal();
+            fetchGroupes();
+        } catch (error) {
+            console.error('Erreur:', error);
+            alert('Échec de l\'ajout du groupe.');
+        }
     }
 
     window.onload = fetchGroupes;
