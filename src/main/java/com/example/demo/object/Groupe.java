@@ -15,13 +15,15 @@ public class Groupe {
     private String ville;
     private int code_postal;
     private ArrayList<Membre> membres;
+    private ArrayList<Materiel> materiels;
 
-    public Groupe(int num, String nom, String ville, int cp, ArrayList<Membre> mem){
-        this.numeroGroupe = num;
+    public Groupe(int numeroGroupe, String nom, String ville, int code_postal, ArrayList<Membre> membre, ArrayList<Materiel> materiel) {
+        this.numeroGroupe = numeroGroupe;
         this.nom = nom;
         this.ville = ville;
-        this.code_postal = cp;
-        this.membres = mem;
+        this.code_postal = code_postal;
+        this.membres = membre;
+        this.materiels = new ArrayList<>(materiel);
     }
 
     public int getNumeroGroupe() {

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.object.Groupe;
+import com.example.demo.object.Materiel;
 import com.example.demo.object.Membre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,9 @@ public class GroupeController {
     }
 
     @GetMapping("/createGroup")
-    public void createGroup(int num, String nom, String ville, int cp, ArrayList<Membre> membres){
+    public void createGroup(int num, String nom, String ville, int cp, ArrayList<Membre> membres, ArrayList<Materiel> materiel){
 
         ArrayList<Membre> m = new ArrayList<>();
-        groupeService.saveGroupe(new Groupe(num,nom,ville, cp, membres));
+        groupeService.saveGroupe(new Groupe(num,nom,ville, cp, membres, materiel));
     }
 }
