@@ -103,7 +103,7 @@
   <label for="price">Prix (€) :</label>
   <input type="number" id="price" name="price" min="0" step="0.01" required>
 
-  <button type="submit" class="btn-submit" >Ajouter le produit</button>
+  <button type="submit" class="btn-submit">Ajouter le produit</button>
 </form>
 
 <button class="btn-back" onclick="window.location.href='ventes.html'">Retour aux ventes</button>
@@ -112,18 +112,55 @@
   document.getElementById('add-product-form').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const product = {
-      serialNumber: document.getElementById('serial-number').value.trim(),
-      brand: document.getElementById('brand').value.trim(),
-      model: document.getElementById('model').value.trim(),
-      type: document.getElementById('type').value,
-      price: parseFloat(document.getElementById('price').value)
+    // Récupération des valeurs du formulaire
+    const numero_serie = document.getElementById('serial-number').value.trim();
+    const marque = document.getElementById('brand').value.trim();
+    const modele = document.getElementById('model').value.trim();
+    const type = document.getElementById('type').value;
+    const prix = parseFloat(document.getElementById('price').value);
+
+    // Affichage des valeurs récupérées pour débogage
+    console.log("numéro de série:", numero_serie);
+    console.log("marque:", marque);
+    console.log("modèle:", modele);
+    console.log("type:", type);
+    console.log("prix:", prix);
+
+    // Création d'un objet représentant le produit
+    const materiel = {
+      numero_serie: numero_serie,
+      marque: marque,
+      modele: modele,
+      type: type,
+      prix: prix
     };
 
-    console.log('Produit ajouté :', product);
-    alert(`Produit "${product.model}" ajouté avec succès !`);
-    window.location.href = 'ventes.html'; // Redirection après fermeture de l'alerte
+    console.log('Materiel créé :', materiel);
+    console.log(JSON.stringify(materiel));
+
+    // Envoi de l'objet Materiel vers le backend via fetch
+    fetch('http://localhost:8080/materiel/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(materiel),
+    })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Produit ajouté avec succès :', data);
+              alert(`Produit "${materiel.modele}" ajouté avec succès !`);
+              window.location.href = 'ventes.html'; // Redirection après fermeture de l'alerte
+            })
+            .catch(error => {
+              console.error('Erreur lors de l\'ajout du produit :', error);
+              alert('Une erreur est survenue lors de l\'ajout du produit.');
+            });
   });
+
+
 </script>
+
+
 </body>
 </html>

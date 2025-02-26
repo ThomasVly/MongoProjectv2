@@ -12,7 +12,8 @@ import java.util.Objects;
 public class MembreService {
     @Autowired
     private MembreRepository membreRepository;
-    public List<Membre> getAllMembres() {
+
+    public List<Membre> getAllMembers() {
 
         return membreRepository.findAll();
     }
@@ -26,4 +27,5 @@ public class MembreService {
 
         return Objects.equals(membreRepository.getMembreByEmail(mail).getPassword(), pass);
     }
+
 }
