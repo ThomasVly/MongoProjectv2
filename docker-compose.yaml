@@ -1,40 +1,81 @@
 version: '3.8'
 services:
+  # Config Servers
+  mongo-config1:
+    image: mongo:5.0
+    container_name: mongo-config1
+    command: ["--configsvr", "--replSet", "configReplSet", "--port", "27017"]
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo_config1_data:/data/db
+
+
+  # Shard 1 (Replica Set)
   mongodb1:
     image: mongo:5.0
     container_name: mongodb1
     ports:
       - "27017:27017"
-    command: ["--replSet", "rs0"]
-    #command: [ "/bin/bash", "-c", "mongod --replSet rs0 & sleep 5 && mongosh /scripts/init-replica.js" ]
+    command: ["--shardsvr", "--replSet", "shard1rs"]
     volumes:
       - mongo1_data:/data/db
-      - ./init-replica.js:/scripts/init-replica.js
-    environment:
-      MONGO_INITDB_DATABASE: mongoprojectdb2
 
   mongodb2:
     image: mongo:5.0
     container_name: mongodb2
-    restart: always
     ports:
       - "27018:27017"
-    command: ["--replSet", "rs0"]
+    command: ["--shardsvr", "--replSet", "shard1rs"]
     volumes:
       - mongo2_data:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: mongoprojectdb2
 
   mongo-arbiter:
     image: mongo:5.0
     container_name: mongo-arbiter
-    restart: always
-    command: [ "--replSet", "rs0" ]
+    command: ["--shardsvr", "--replSet", "shard1rs"]
     ports:
-      - "27019:27017"
+      - "27023:27017"
     volumes:
       - mongo_arbiter_data:/data/db
 
+  # Shard 2 (Replica Set)
+  mongodb3:
+    image: mongo:5.0
+    container_name: mongodb3
+    ports:
+      - "27020:27017"
+    command: ["--shardsvr", "--replSet", "shard2rs"]
+    volumes:
+      - mongo3_data:/data/db
+
+  mongodb4:
+    image: mongo:5.0
+    container_name: mongodb4
+    ports:
+      - "27021:27017"
+    command: ["--shardsvr", "--replSet", "shard2rs"]
+    volumes:
+      - mongo4_data:/data/db
+
+  mongo-arbiter2:
+    image: mongo:5.0
+    container_name: mongo-arbiter2
+    command: ["--shardsvr", "--replSet", "shard2rs"]
+    volumes:
+      - mongo_arbiter2_data:/data/db
+
+  # Router (Mongos)
+  mongos-router:
+    image: mongo:5.0
+    container_name: mongos-router
+    command: [ "mongos", "--configdb", "configReplSet/mongo-config1:27017,mongo-config2:27017,mongo-config3:27017" ]
+    ports:
+      - "27022:27017"
+    depends_on:
+      - mongo-config1
+
+  # Application Spring Boot
   app:
     build:
       context: .
@@ -43,14 +84,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb1:27017,mongodb2:27017/mongoprojectdb2?replicaSet=rs0
+      SPRING_DATA_MONGODB_URI: mongodb://mongos-router:27017/mongoprojectdb2
     depends_on:
-      - mongodb1
+      - mongos-router
 
 volumes:
   mongo1_data:
   mongo2_data:
+  mongo3_data:
+  mongo4_data:
   mongo_arbiter_data:
-
-
-#command: [ "/bin/bash", "-c", "mongod --replSet rs0 & sleep 5 && mongosh /scripts/init-replica.js" ]
+  mongo_arbiter2_data:
+  mongo_config1_data:
