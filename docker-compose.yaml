@@ -51,6 +51,3 @@ volumes:
   mongo1_data:
   mongo2_data:
   mongo_arbiter_data:
-
-
-#command: [ "/bin/bash", "-c", "mongod --replSet rs0 & sleep 5 && mongosh /scripts/init-replica.js" ]
