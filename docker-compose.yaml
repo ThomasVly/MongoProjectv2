@@ -1,81 +1,81 @@
 version: '3.8'
 services:
-  # Config Servers
-  mongo-config1:
+  configsvr:
     image: mongo:5.0
-    container_name: mongo-config1
-    command: ["--configsvr", "--replSet", "configReplSet", "--port", "27017"]
-    ports:
-      - "27019:27017"
+    container_name: configsvr
+    command: ["mongod", "--configsvr", "--replSet", "configReplSet", "--port", "27017", "--dbpath", "/data/configdb"]
     volumes:
-      - mongo_config1_data:/data/db
-
-
-  # Shard 1 (Replica Set)
-  mongodb1:
-    image: mongo:5.0
-    container_name: mongodb1
-    ports:
-      - "27017:27017"
-    command: ["--shardsvr", "--replSet", "shard1rs"]
-    volumes:
-      - mongo1_data:/data/db
-
-  mongodb2:
-    image: mongo:5.0
-    container_name: mongodb2
-    ports:
-      - "27018:27017"
-    command: ["--shardsvr", "--replSet", "shard1rs"]
-    volumes:
-      - mongo2_data:/data/db
-
-  mongo-arbiter:
-    image: mongo:5.0
-    container_name: mongo-arbiter
-    command: ["--shardsvr", "--replSet", "shard1rs"]
-    ports:
-      - "27023:27017"
-    volumes:
-      - mongo_arbiter_data:/data/db
-
-  # Shard 2 (Replica Set)
-  mongodb3:
-    image: mongo:5.0
-    container_name: mongodb3
+      - config_data:/data/configdb
     ports:
       - "27020:27017"
-    command: ["--shardsvr", "--replSet", "shard2rs"]
-    volumes:
-      - mongo3_data:/data/db
 
-  mongodb4:
+  shard1_mongo1:
     image: mongo:5.0
-    container_name: mongodb4
+    container_name: shard1_mongo1
+    command: ["mongod", "--shardsvr", "--replSet", "shard1ReplSet", "--port", "27017"]
+    volumes:
+      - shard1_mongo1_data:/data/db
     ports:
       - "27021:27017"
-    command: ["--shardsvr", "--replSet", "shard2rs"]
-    volumes:
-      - mongo4_data:/data/db
 
-  mongo-arbiter2:
+  shard1_mongo2:
     image: mongo:5.0
-    container_name: mongo-arbiter2
-    command: ["--shardsvr", "--replSet", "shard2rs"]
+    container_name: shard1_mongo2
+    command: ["mongod", "--shardsvr", "--replSet", "shard1ReplSet", "--port", "27017"]
     volumes:
-      - mongo_arbiter2_data:/data/db
-
-  # Router (Mongos)
-  mongos-router:
-    image: mongo:5.0
-    container_name: mongos-router
-    command: [ "mongos", "--configdb", "configReplSet/mongo-config1:27017,mongo-config2:27017,mongo-config3:27017" ]
+      - shard1_mongo2_data:/data/db
     ports:
       - "27022:27017"
-    depends_on:
-      - mongo-config1
 
-  # Application Spring Boot
+  shard1_arbiter:
+    image: mongo:5.0
+    container_name: shard1_arbiter
+    command: ["mongod", "--shardsvr", "--replSet", "shard1ReplSet", "--port", "27017"]
+    volumes:
+      - shard1_arbiter_data:/data/db
+    ports:
+      - "27023:27017"
+
+  shard2_mongo1:
+    image: mongo:5.0
+    container_name: shard2_mongo1
+    command: ["mongod", "--shardsvr", "--replSet", "shard2ReplSet", "--port", "27017"]
+    volumes:
+      - shard2_mongo1_data:/data/db
+    ports:
+      - "27024:27017"
+
+  shard2_mongo2:
+    image: mongo:5.0
+    container_name: shard2_mongo2
+    command: ["mongod", "--shardsvr", "--replSet", "shard2ReplSet", "--port", "27017"]
+    volumes:
+      - shard2_mongo2_data:/data/db
+    ports:
+      - "27025:27017"
+
+  shard2_arbiter:
+    image: mongo:5.0
+    container_name: shard2_arbiter
+    command: ["mongod", "--shardsvr", "--replSet", "shard2ReplSet", "--port", "27017"]
+    volumes:
+      - shard2_arbiter_data:/data/db
+    ports:
+      - "27026:27017"
+
+  mongos:
+    image: mongo:5.0
+    container_name: mongos
+    command: ["mongos", "--configdb", "configReplSet/configsvr:27017", "--bind_ip_all"]
+    ports:
+      - "27027:27017"
+    depends_on:
+      - configsvr
+      - shard1_mongo1
+      - shard1_mongo2
+      - shard2_mongo1
+      - shard2_mongo2
+
   app:
     build:
       context: .
@@ -84,15 +84,15 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongos-router:27017/mongoprojectdb2
+      SPRING_DATA_MONGODB_URI: mongodb://mongos:27017/mongoprojectdb2
     depends_on:
-      - mongos-router
+      - mongos
 
 volumes:
-  mongo1_data:
-  mongo2_data:
-  mongo3_data:
-  mongo4_data:
-  mongo_arbiter_data:
-  mongo_arbiter2_data:
-  mongo_config1_data:
+  config_data:
+  shard1_mongo1_data:
+  shard1_mongo2_data:
+  shard1_arbiter_data:
+  shard2_mongo1_data:
+  shard2_mongo2_data:
+  shard2_arbiter_data:
