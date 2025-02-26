@@ -3,6 +3,7 @@ Nous avons eu des problèmes pour exécuter les scripts dans le docker compose d
 Nous avons des données en dur que nous glissons dans le projet à la racine dans le dossier Datas sous forme de fichiers json que vous pourrez ajouter dans votre bdd si vous le souhaitez.
 Nous avons tout sauf la partie API/Front pour la dernière étape, pour laquelle nous avons quand même fait la partie sharding permettant d'optimiser les recherches des commandes.
 
+Pour lancer le projet, il faut faire un maven clean install, build l'image du dockerfile, et lancer le docker compose
 
 |||| LISTE DES COMMANDES POUR INITIALISER REPLICA SET ET SHARDS|||
 
