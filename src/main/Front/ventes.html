@@ -73,7 +73,7 @@
             color: #ff6c00;
         }
 
-        .btn-logout, .btn-add-materiel, .btn-add-user {
+        .btn-logout, .btn-add-materiel, .btn-add-user, .btn-add-group{
             margin-top: 10px;
             background-color: #e65c00;
             color: #fff;
@@ -84,14 +84,15 @@
             font-size: 16px;
         }
 
-        .btn-logout:hover, .btn-add-materiel:hover, .btn-add-user:hover {
+        .btn-logout:hover, .btn-add-materiel:hover, .btn-add-user:hover, .btn-add-group:hover {
             background-color: #c05000;
         }
 
-        .btn-add-materiel, .btn-add-user {
+        .btn-add-materiel, .btn-add-user, .btn-add-group {
             align-self: flex-end;
             margin-bottom: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -105,6 +106,7 @@
 <div class="materiels-container" id="materiels-container">
     <button class="btn-add-materiel" onclick="window.location.href='add_Product.html'">Ajouter un matériel</button>
     <button class="btn-add-user" onclick="window.location.href='add_user.html'">Ajouter un utilisateur</button>
+    <button class="btn-add-group" onclick="window.location.href='add_modify_group.html'">Ajouter/Modifier les groupes</button>
 </div>
 
 <button class="btn-logout" onclick="logout()">Se déconnecter</button>

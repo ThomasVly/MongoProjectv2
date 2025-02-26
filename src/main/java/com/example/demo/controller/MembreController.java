@@ -37,7 +37,7 @@ public class MembreController {
     @GetMapping("/addToGroup")
     public void addMembreToGroup(Membre membre, int num){
 
-        Groupe tt = groupeService.getGroupe(num).addMembre(membre);
+        Groupe tt = groupeService.getGroupe(String.valueOf(num)).addMembre(membre);
         groupeService.saveGroupe(tt);
 
     }

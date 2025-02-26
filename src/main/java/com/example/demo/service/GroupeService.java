@@ -20,14 +20,15 @@ public class GroupeService {
         return groupeRepository.save(groupe);
     }
 
-    public Groupe getGroupe(int num){
+    public Groupe getGroupe(String num){
 
         return groupeRepository.getGroupeByNumeroGroupe(num);
     }
 
-    public void saveGroupe(Groupe g){
+    public Groupe saveGroupe(Groupe g){
 
         groupeRepository.save(g);
+        return g;
     }
 
 }
