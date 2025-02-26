@@ -47,10 +47,11 @@ public class MembreController {
         return membreService.validateLogin(mail, pass);
     }
 
-    @PostMapping("/getAll")
+    @GetMapping("/getAll")
     public List<Membre> getAllMember() {
         return membreService.getAllMembers();
     }
+
 
 
 

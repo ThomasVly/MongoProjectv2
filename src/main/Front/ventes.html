@@ -110,6 +110,7 @@
 <button class="btn-logout" onclick="logout()">Se déconnecter</button>
 
 <script>
+    // Fonction de chargement de la navbar
     function loadNavbar() {
         fetch('navbar.html')
             .then(response => response.text())
@@ -120,6 +121,7 @@
             .catch(error => console.error('Erreur de chargement de la navbar:', error));
     }
 
+    // Met à jour le lien de connexion/déconnexion
     function updateAuthLink() {
         const user = JSON.parse(localStorage.getItem("user"));
         const authLink = document.getElementById("auth-link");
@@ -129,23 +131,32 @@
         }
     }
 
+    // Fonction de déconnexion
     function logout() {
         localStorage.removeItem("user");
         window.location.href = "index.html";
     }
 
+    // Vérification de l'utilisateur
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
-        window.location.href = "login.html";
+        window.location.href = "login.html";  // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
     } else {
         const username = user.email.split('@')[0];
-        document.getElementById("user-info").innerText = `Bonjour, ${username}`;
+        const prenom = user.prenom;
+        document.getElementById("user-info").innerText = `Bonjour, ${prenom}`;
+
+        // Vérification si l'utilisateur est actif
+        if (user.type_membre !== "actif") {
+            // Si l'utilisateur n'est pas actif, on cache les boutons d'ajout
+            document.querySelector(".btn-add-materiel").style.display = "none";
+            document.querySelector(".btn-add-user").style.display = "none";
+        }
     }
 
+    // Fonction pour récupérer les matériels
     function fetchMateriels() {
-        fetch("http://localhost:8080/membre/getAll")
-
         fetch("http://localhost:8080/materiel/getAll")
             .then(response => response.json())
             .then(materiels => {
@@ -165,7 +176,6 @@
 
                     materielItem.addEventListener("click", () => {
                         localStorage.setItem("ActualMaterial", `${materiel.numero_serie}`);
-
                         window.location.href = `produit.html`;
                     });
 
@@ -175,8 +185,12 @@
             .catch(error => console.error('Erreur lors de la récupération des matériels:', error));
     }
 
+    // Chargement des informations et des matériels
+    fetch("http://localhost:8080/membre/getAll")
+        .then(response => response.json())
     loadNavbar();
     fetchMateriels();
 </script>
+
 </body>
 </html>

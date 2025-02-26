@@ -92,23 +92,26 @@
 </div>
 
 <script>
-    // Gestionnaire de soumission du formulaire
     document.getElementById("login-form").addEventListener("submit", function (e) {
-        e.preventDefault(); // Empêche le rechargement de la page
+        e.preventDefault();  // Empêche le rechargement de la page
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-        // Envoi de la requête de connexion à l'API
-
-            fetch("http://localhost:8080/membre/login?mail=" + email + "&pass=" + password, {
-            method: "POST",
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data) {  // Si la connexion est valide (vrai)
-                    // Sauvegarde des informations de l'utilisateur dans le stockage local
-                    localStorage.setItem("user", JSON.stringify({ email }));
+        // Récupération de tous les membres depuis l'API
+        fetch("http://localhost:8080/membre/getAll")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erreur réseau");
+                }
+                return response.json();
+            })
+            .then(members => {
+                // Recherche de l'utilisateur correspondant
+                const user = members.find(member => member.email === email && member.password === password);
+                if (user) {
+                    // Stockage de toutes les informations de l'utilisateur dans le localStorage
+                    localStorage.setItem("user", JSON.stringify(user));
 
                     // Redirection vers la page des ventes
                     window.location.href = "ventes.html";
@@ -117,8 +120,8 @@
                 }
             })
             .catch(error => {
-                alert("Erreur lors de la connexion, veuillez réessayer.");
                 console.error("Erreur de connexion:", error);
+                alert("Erreur lors de la connexion, veuillez réessayer.");
             });
     });
 </script>

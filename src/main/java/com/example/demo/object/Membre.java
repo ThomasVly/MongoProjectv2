@@ -16,13 +16,13 @@ public class Membre {
     private String type_membre;
     private String password;
 
-    public Membre(String id, String nom, String prenom, String add, String mail, String mem, String pass){
-        this.id_membre = id;
+    public Membre(String id_membre, String nom, String prenom, String adresse, String email, String type_membre, String password){
+        this.id_membre = id_membre;
         this.prenom = prenom;
-        this.adresse = add;
-        this.email = mail;
-        this.type_membre = mem;
-        this.password = pass;
+        this.adresse = adresse;
+        this.email = email;
+        this.type_membre = type_membre;
+        this.password = password;
     }
 
     public String getId_membre() {
