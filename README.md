@@ -1,3 +1,9 @@
+Dans ce projet, nous avons une base de données mongo, déployée dans un docker, avec deux shards (commande de moins de 10 ans et plus de 10 ans, chacun composé de deux instances de redondance)
+Nous avons eu des problèmes pour exécuter les scripts dans le docker compose de sorte à initialiser les replica set, les données de la base ainsi que les shards. De ce fait vous trouverez ci-dessous les commandes à exécuter. Si vous avez la moindre question/problème n'hésitez pas à nous contacter.
+Nous avons des données en dur que nous glissons dans le projet à la racine dans le dossier Datas sous forme de fichiers json que vous pourrez ajouter dans votre bdd si vous le souhaitez.
+Nous avons tout sauf la partie API/Front pour la dernière étape, pour laquelle nous avons quand même fait la partie sharding permettant d'optimiser les recherches des commandes.
+
+
 |||| LISTE DES COMMANDES POUR INITIALISER REPLICA SET ET SHARDS|||
 
 
@@ -10,7 +16,10 @@ configsvr: true,
 members: [{ _id: 0, host: "configsvr:27017" }]
 })
 
-docker restart mongos ??
+
+DECONNEXION
+
+docker restart mongos 
 
 
 docker exec -it shard1_mongo1 mongosh --port 27017
@@ -25,6 +34,8 @@ members: [
 ]
 })
 
+DECONNEXION 
+
 
 docker exec -it shard2_mongo1 mongosh --port 27017
 
@@ -37,6 +48,8 @@ members: [
 ]
 })
 
+
+DECONNEXION 
 
 
 docker exec -it mongos mongosh --port 27017
@@ -61,8 +74,6 @@ sh.addTagRange(
 { orderDate: dateLimite },
 "old"
 )
-{
-
 
 sh.addTagRange(
 "mongoprojectdb2.orders",
@@ -70,7 +81,7 @@ sh.addTagRange(
 { orderDate: MaxKey },
 "recent"
 )
-{
+
 
 var splitDate = new ISODate("2015-02-26T00:00:00Z");
 
