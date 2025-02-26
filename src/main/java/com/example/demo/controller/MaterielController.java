@@ -27,7 +27,8 @@ public class MaterielController {
     }
 
     @PostMapping("/add")
-    public Materiel addMateriel(Materiel materiel) {
+    public Materiel addMateriel(@RequestBody Materiel materiel) {
+        System.out.println("Materiel reçu : " + materiel);
         return materielService.addMateriel(materiel);
     }
 
